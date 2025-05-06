@@ -2660,7 +2660,8 @@ class MyMainWindow(QMainWindow, main_ui.Ui_MainWindow):
             self.usb_switch_dialog.graphics_label.setPixmap(QPixmap(f"{PATH}/data/Images/kvmcard-discon.png"))
 
             # read status
-            reply = hid_def.hid_report([0x6F, 0, 3, 0], True)
+            #reply = hid_def.hid_report([0x6F, 0, 3, 0], True)
+            reply = hid_def.hid_report([0x6, 0, 3, 0], True)
             if reply == 1 or reply == 2 or reply == 4:
                 self.device_event_handle("hid_error")
                 return
@@ -2670,7 +2671,8 @@ class MyMainWindow(QMainWindow, main_ui.Ui_MainWindow):
                 QMessageBox.critical(self, "Error", "功能不支持，请升级固件后重试",
                                      QMessageBox.Ok)
                 return
-            if reply[0] == 0x6F and reply[2] == 3:
+            #if reply[0] == 0x6F and reply[2] == 3:
+            if reply[0] == 0x6 and reply[2] == 3:
                 # reply[3] //power
                 # reply[4] //IN
                 # reply[5] //EN#
@@ -2699,7 +2701,8 @@ class MyMainWindow(QMainWindow, main_ui.Ui_MainWindow):
             window_close_status = self.usb_switch_dialog.exec()
             # set usb switch
             if window_close_status == 1:
-                payload = [0x6F, 0, 0, 0]
+                #payload = [0x6F, 0, 0, 0]
+                payload = [0x6, 0, 0, 0]
                 if self.usb_switch_dialog.radioButton_float.isChecked():
                     pass
                 elif self.usb_switch_dialog.radioButton_master.isChecked():
@@ -2730,7 +2733,8 @@ class MyMainWindow(QMainWindow, main_ui.Ui_MainWindow):
         progress.show()
 
         # read usb switch status
-        reply = hid_def.hid_report([0x6F, 0, 3, 0], True)
+        #reply = hid_def.hid_report([0x6F, 0, 3, 0], True)
+        reply = hid_def.hid_report([0x6, 0, 3, 0], True)
         if reply == 1 or reply == 2 or reply == 4:
             self.device_event_handle("hid_error")
             progress.close()
@@ -2742,7 +2746,8 @@ class MyMainWindow(QMainWindow, main_ui.Ui_MainWindow):
             QMessageBox.critical(self, "Error", "功能不支持，请升级固件后重试",
                                  QMessageBox.Ok)
             return
-        if reply[0] == 0x6F and reply[2] == 3:
+        #if reply[0] == 0x6F and reply[2] == 3:
+        if reply[0] == 0x6 and reply[2] == 3:
             # reply[3] //power
             # reply[4] //IN
             # reply[5] //EN#
@@ -2767,7 +2772,8 @@ class MyMainWindow(QMainWindow, main_ui.Ui_MainWindow):
         usb_switch_progress(0.5, 0, 20, progress)
 
         # Send command to disconnect USB device
-        payload = [0x6F, 0, 0, 0]
+        #payload = [0x6F, 0, 0, 0]
+        payload = [0x6, 0, 0, 0]
         hidinfo = hid_def.hid_report(payload)
         if hidinfo == 1 or hidinfo == 4:
             self.device_event_handle("hid_error")
