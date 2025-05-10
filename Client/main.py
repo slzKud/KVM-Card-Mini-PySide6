@@ -2651,15 +2651,20 @@ class MyMainWindow(QMainWindow, main_ui.Ui_MainWindow):
     def try_usb_switch_code(self):
         reply = hid_def.hid_report([0x6F, 0, 3, 0], True)
         if reply != 1 or reply != 2 or reply != 3 or reply != 4:
-            if reply[0] == 0x6F:
-                return 0x6F
+            return 0x6F
         reply = hid_def.hid_report([0x6, 0, 3, 0], True)
         if reply != 1 or reply != 2 or reply != 3 or reply != 4:
-            if reply[0] == 0x6:
-                return 0x6
+            return 0x6
         return False
 
     def usb_switch_func(self, s):
+        hidcode=try_usb_switch_code()
+        if hidcode==False:
+            QMessageBox.critical(self, "Error", "功能不支持，请升级固件后重试",
+                                QMessageBox.Ok)
+            return
+        QMessageBox.critical(self, "Error", "当前使用的hid code是%x"%(hidcode),
+                                QMessageBox.Ok)
         if s == 1:
             self.usb_switch_dialog.graphics_label.setPixmap(QPixmap(f"{PATH}/data/Images/kvmcard-2c.png"))
         elif s == 2:
@@ -2668,13 +2673,7 @@ class MyMainWindow(QMainWindow, main_ui.Ui_MainWindow):
             self.usb_switch_dialog.graphics_label.setPixmap(QPixmap(f"{PATH}/data/Images/kvmcard-2d.png"))
         else:
             self.usb_switch_dialog.graphics_label.setPixmap(QPixmap(f"{PATH}/data/Images/kvmcard-discon.png"))
-            hidcode=try_usb_switch_code()
-            if hidcode==False:
-                QMessageBox.critical(self, "Error", "功能不支持，请升级固件后重试",
-                                     QMessageBox.Ok)
-                return
-            QMessageBox.critical(self, "Error", "当前使用的hid code是%x"%(hidcode),
-                                     QMessageBox.Ok)
+            
             # read status
             #reply = hid_def.hid_report([0x6F, 0, 3, 0], True)
             reply = hid_def.hid_report([hidcode, 0, 3, 0], True)
