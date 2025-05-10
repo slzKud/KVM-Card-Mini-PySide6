@@ -2671,8 +2671,8 @@ class MyMainWindow(QMainWindow, main_ui.Ui_MainWindow):
                 QMessageBox.critical(self, "Error", "功能不支持，请升级固件后重试",
                                 QMessageBox.Ok)
                 return
-            QMessageBox.critical(self, "Error", "当前使用的hid code是%x"%(hidcode),
-                                QMessageBox.Ok)
+            # QMessageBox.critical(self, "Error", "当前使用的hid code是%x"%(hidcode),
+            #                     QMessageBox.Ok)
             # read status
             #reply = hid_def.hid_report([0x6F, 0, 3, 0], True)
             reply = hid_def.hid_report([hidcode, 0, 3, 0], True)
