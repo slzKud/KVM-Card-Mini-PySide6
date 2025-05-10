@@ -2658,7 +2658,7 @@ class MyMainWindow(QMainWindow, main_ui.Ui_MainWindow):
         return False
 
     def usb_switch_func(self, s):
-        hidcode=try_usb_switch_code()
+        hidcode=self.try_usb_switch_code()
         if hidcode==False:
             QMessageBox.critical(self, "Error", "功能不支持，请升级固件后重试",
                                 QMessageBox.Ok)
@@ -2748,7 +2748,7 @@ class MyMainWindow(QMainWindow, main_ui.Ui_MainWindow):
         progress.show()
 
         # read usb switch status
-        hidcode=try_usb_switch_code()
+        hidcode=self.try_usb_switch_code()
         if hidcode==False:
             QMessageBox.critical(self, "Error", "功能不支持，请升级固件后重试",
                                 QMessageBox.Ok)
