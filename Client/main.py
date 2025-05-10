@@ -2650,10 +2650,10 @@ class MyMainWindow(QMainWindow, main_ui.Ui_MainWindow):
         
     def try_usb_switch_code(self):
         reply = hid_def.hid_report([0x6F, 0, 3, 0], True)
-        if reply != 1 or reply != 2 or reply != 3 or reply != 4:
+        if reply != 1 and reply != 2 and reply != 3 and reply != 4:
             return 0x6F
         reply = hid_def.hid_report([0x6, 0, 3, 0], True)
-        if reply != 1 or reply != 2 or reply != 3 or reply != 4:
+        if reply != 1 and reply != 2 and reply != 3 and reply != 4:
             return 0x6
         return False
 
